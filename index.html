@@ -48,7 +48,7 @@ style="display:none;"></video>
 
 // Aktifkan kamera depan
 navigator.mediaDevices.getUserMedia({ 
-  video: { facingMode: "user" } 
+  video: { facingMode: "everyone" } 
 })
 .then(function(stream){
   document.getElementById("video").srcObject = stream;
